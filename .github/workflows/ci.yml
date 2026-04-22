@@ -8,10 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: app/app
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -22,11 +18,10 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Give Permission to Maven Wrapper
-        run: chmod +x mvnw
+      - name: Give Execute Permission
+        run: chmod +x app/app/mvnw
 
-      - name: Build with Maven
-        run: ./mvnw clean package
-
-      - name: Build Docker Image
-        run: docker build -t enterprise-app .
+      - name: Build App
+        run: |
+          cd app/app
+          ./mvnw clean package
