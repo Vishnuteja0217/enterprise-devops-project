@@ -3,12 +3,14 @@ name: Java CI Pipeline
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: app/app
 
     steps:
       - name: Checkout Code
@@ -20,12 +22,11 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Give Permission to Maven Wrapper
+        run: chmod +x mvnw
+
       - name: Build with Maven
-        run: |
-          cd app/app
-          ./mvnw clean package
+        run: ./mvnw clean package
 
       - name: Build Docker Image
-        run: |
-          cd app/app
-          docker build -t enterprise-app .
+        run: docker build -t enterprise-app .
