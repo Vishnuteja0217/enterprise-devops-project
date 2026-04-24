@@ -51,7 +51,7 @@ jobs:
           cd app/app
           docker build -t ${{ secrets.ECR_REPOSITORY }} .
 
-                - name: Run Trivy Scan
+       -name: Run Trivy Scan
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ secrets.ECR_REPOSITORY }}:latest
