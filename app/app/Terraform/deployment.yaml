@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enterprise-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: enterprise-app
+  template:
+    metadata:
+      labels:
+        app: enterprise-app
+    spec:
+      containers:
+      - name: enterprise-app
+        image: 071695389491.dkr.ecr.us-east-1.amazonaws.com/enterprise-app
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enterprise-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: enterprise-app
+  ports:
+    - port: 80
+      targetPort: 8080
